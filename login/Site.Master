@@ -1,0 +1,47 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="AlquilaConConfianza.Site" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <meta charset="utf-8" />
+    <title>Alquila con Confianza</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #070a15; color: #e8edfb; }
+        .navbar { background-color: #0f1630; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222c55; }
+        .navbar h2 { margin: 0; color: #22d3ee; font-size: 20px; }
+        .nav-links a { color: #9ba7ce; text-decoration: none; margin-left: 15px; font-weight: 600; }
+        .nav-links a:hover { color: #22d3ee; }
+        .container { padding: 30px; max-width: 1000px; margin: 0 auto; }
+        .user-info { font-size: 14px; color: #ffb224; }
+        .btn-logout { background-color: #f046d2; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="navbar">
+            <h2>Alquila con Confianza</h2>
+            <div class="nav-links">
+                <% string rol = Session["Rol"] != null ? Session["Rol"].ToString() : ""; %>
+
+                <% if (rol == "Arrendatario") { %>
+                    <a href="Arrendatario.aspx">Buscar Casas</a>
+                    <a href="#">Mis Solicitudes</a>
+                <% } else if (rol == "Propietario") { %>
+                    <a href="Propietario.aspx">Mis Propiedades</a>
+                    <a href="#">Solicitudes Recibidas</a>
+                <% } else if (rol == "Administrador") { %>
+                    <a href="Admin.aspx">Panel de Control</a>
+                    <a href="#">Aprobar Casas</a>
+                <% } %>
+
+                <span class="user-info">[<% Response.Write(rol); %>: <% Response.Write(Session["UsuarioCorreo"]); %>]</span>
+                <asp:LinkButton ID="btnLogout" runat="server" CssClass="btn-logout" OnClick="btnLogout_Click">Cerrar Sesión</asp:LinkButton>
+            </div>
+        </div>
+
+        <div class="container">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>
